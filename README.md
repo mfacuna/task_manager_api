@@ -6,21 +6,6 @@ Una API RESTful construida con [FastAPI](https://fastapi.tiangolo.com/) para ges
 
 ---
 
-## 🧱 Estructura del Proyecto
-task_manager_api/
-├── config/ # Configuraciones del proyecto
-├── db/ # Configuración y conexión a la base de datos
-├── models/ # Modelos ORM
-├── routers/ # Rutas de la API
-├── schemas/ # Esquemas de Pydantic
-├── services/ # Lógica de negocio
-├── utils/ # Utilidades y funciones auxiliares
-├── main.py # Punto de entrada de la aplicación
-├── requirements.txt # Dependencias del proyecto
-└── .env.example # Variables de entorno de ejemplo
-
----
-
 ## ⚙️ Instalación y Ejecución
 
 ### 1. Clonar el repositorio
