@@ -13,13 +13,14 @@ Una API RESTful construida con [FastAPI](https://fastapi.tiangolo.com/) para ges
 ```bash
 git clone https://github.com/mfacuna/task_manager_api.git
 cd task_manager_api
-
+```
 
 ### 2. Crea un entorno virtual e instala las dependencias:
 ```bash
 python -m venv venv
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
+```
 
 ### 3. Configura las variables de entorno:
 Copia el archivo .env.example a .env y ajusta los valores según tu entorno.
@@ -27,8 +28,8 @@ Copia el archivo .env.example a .env y ajusta los valores según tu entorno.
 ### 4. Inicia la aplicación:
 ```bash
 uvicorn main:app --reload
-
+```
 
 ## Accede a la documentación interactiva:
-Swagger UI: http://localhost:8000/docs
-ReDoc: http://localhost:8000/redoc
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
