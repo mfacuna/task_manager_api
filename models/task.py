@@ -6,6 +6,7 @@ from beanie import Document
 class TaskModel(Document):
     title: str
     description: Optional[str] = None
+    category: Optional[str] = None
     status: str
     priority: int
     due_date: Optional[datetime] = None

@@ -4,10 +4,15 @@ from fastapi import HTTPException, status
 from schemas.task import TaskCreate, TaskResponse, TaskUpdate
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from datetime import datetime, timezone
+from utils import mongo
 from utils.datetime import ensure_datetime
 from pymongo import ReturnDocument
+from utils.mongo import mongo_to_response
 
+# Constants
 COLLECTION_NAME = "tasks"
+
+
 
 async def create_task(task_in: TaskCreate, db: AsyncIOMotorDatabase):
     now = datetime.now(timezone.utc)
@@ -17,23 +22,20 @@ async def create_task(task_in: TaskCreate, db: AsyncIOMotorDatabase):
     data["updated_at"] = now
     
     result = await db[COLLECTION_NAME].insert_one(data)
-    stored = await db[COLLECTION_NAME].find_one({"_id": result.inserted_id})
-    if not stored:
-        raise HTTPException(500, "Error inserting task")
-    
-    stored["id"] = str(stored["_id"])
-    stored.pop("_id", None)
-    return TaskResponse(**stored)
+    task_created = await db[COLLECTION_NAME].find_one({"_id": result.inserted_id})
+    if not task_created:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error inserting task")
+
+    return TaskResponse(**mongo_to_response(task_created))
 
 
 
 async def get_all_tasks(db: AsyncIOMotorDatabase):
     tasks = []
     async for task in db[COLLECTION_NAME].find():
-        task["id"] = str(task["_id"])
-        task.pop("_id", None)
-        tasks.append(TaskResponse(**task))
+        tasks.append(TaskResponse(**mongo_to_response(task)))
     return tasks
+
 
 
 async def get_task_by_id(task_id: str, db: AsyncIOMotorDatabase):
@@ -45,9 +47,8 @@ async def get_task_by_id(task_id: str, db: AsyncIOMotorDatabase):
 
     if not task:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
-    task["id"] = str(task["_id"])
-    task.pop("_id", None)
-    return TaskResponse(**task)
+    return TaskResponse(**mongo_to_response(task))
+
 
 
 async def update_task(task_id: str, task_in: TaskUpdate, db: AsyncIOMotorDatabase):
@@ -64,17 +65,16 @@ async def update_task(task_id: str, task_in: TaskUpdate, db: AsyncIOMotorDatabas
 
     data["updated_at"] = datetime.now(timezone.utc)
 
-    updated = await db[COLLECTION_NAME].find_one_and_update(
+    task_updated = await db[COLLECTION_NAME].find_one_and_update(
         {"_id": oid},
         {"$set": data},
         return_document=ReturnDocument.AFTER
     )
-    if not updated:
+    if not task_updated:
         raise HTTPException(status.HTTP_404_NOT_FOUND, f"Task with id {task_id} not found")
 
-    updated["id"] = str(updated["_id"])
-    updated.pop("_id", None)
-    return TaskResponse(**updated)
+
+    return TaskResponse(**mongo_to_response(task_updated))
 
 
 async def delete_task(task_id: str, db: AsyncIOMotorDatabase):

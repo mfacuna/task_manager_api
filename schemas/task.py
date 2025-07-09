@@ -16,6 +16,7 @@ class TaskPriority(int, Enum):
 class TaskCreate(BaseModel):
     title: str = Field(..., max_length=100)
     description: Optional[str] = None
+    category: Optional[str] = None
     status: TaskStatus = TaskStatus.pending
     priority: TaskPriority = TaskPriority.medium
     due_date: Optional[date] = Field(None)
@@ -30,6 +31,7 @@ class TaskCreate(BaseModel):
 class TaskUpdate(BaseModel):
     title: Optional[str] = Field(None, max_length=100)
     description: Optional[str] = None
+    category: Optional[str] = None
     status: Optional[TaskStatus] = None
     priority: Optional[TaskPriority] = None
     due_date: Optional[date] = Field(None)
