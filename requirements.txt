@@ -1,0 +1,6 @@
+beanie==1.30.0
+fastapi==0.116.0
+motor==3.7.1
+pydantic==2.11.7
+pydantic_settings==2.10.1
+pymongo==4.13.2

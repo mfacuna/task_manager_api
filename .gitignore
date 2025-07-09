@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables files
+.env
+*.env
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing / coverage
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+
+# IDE configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs and databases
+*.log
+*.db
+*.sqlite3
+
+# FastAPI-related
+# si usas Uvicorn/ASGI reloads
+*.reload
+
+# PyCharm
+.idea/
+
+# Local files
+*.swp
+*~
+
+# Optional: Ignore Docker artifacts si los usas
+# docker-compose.override.yml
+# .docker/
